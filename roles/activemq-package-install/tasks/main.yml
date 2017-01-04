@@ -1,0 +1,19 @@
+---
+
+- name: Install lkiesow activemq repository
+  yum_repository:
+    name: "Copr repo for apache-activemq-dist owned by lkiesow"
+    description: "Copr repo for apache-activemq-dist owned by lkiesow"
+    baseurl: "https://copr-be.cloud.fedoraproject.org/results/lkiesow/apache-activemq-dist/epel-7-$basearch/"
+    gpgkey: "https://copr-be.cloud.fedoraproject.org/results/lkiesow/apache-activemq-dist/pubkey.gpg"
+    gpgcheck: 1
+    params:
+    skip_if_unavailable: yes
+    repo_gpgcheck: no
+    enabled: yes
+
+- name: ActiveMQ install
+  yum: update_cache=yes name=activemq-dist state=latest
+
+- name: Copy ActiveMQ config file
+  copy: src="activemq.xml" dest="/etc/activemq/activemq.xml"
