@@ -3,17 +3,17 @@
 - name: Opencast Admin install
   yum: update_cache=yes name={{ item }} state=latest
   with_items:
-    - opencast{{ opencast_version }}-admin
+    - opencast{{ opencast_version |default ('23') }}-admin
   when: inventory_hostname in groups['admin']
 
 - name: Opencast presentation install
   yum: update_cache=yes name={{ item }} state=latest
   with_items:
-    - opencast{{ opencast_version }}-presentation
+    - opencast{{ opencast_version |default ('23') }}-presentation
   when: inventory_hostname in groups['presentation']
 
 - name: Opencast Worker install
   yum: update_cache=yes name={{ item }} state=latest
   with_items:
-    - opencast{{ opencast_version }}-worker
+    - opencast{{ opencast_version |default ('23') }}-worker
   when: inventory_hostname in groups['worker']
