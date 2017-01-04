@@ -1,0 +1,9 @@
+---
+
+- name: Deploy official Opencast Stable repository
+  template: src=opencast-stable.repo dest=/etc/yum.repos.d/opencast-stable.repo
+
+- name: Deploy official Opencast Testing repository
+  template: src=opencast-testing.repo dest=/etc/yum.repos.d/opencast-testing.repo
+  when: testing_repository_deploy
+  
