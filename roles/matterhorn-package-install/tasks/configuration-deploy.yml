@@ -1,6 +1,7 @@
 ---
 
-- name: config.properties deploy
-  template: src=custom.properties dest=/etc/opencast/custom.properties
-
-
+- name: configuration templates deploy
+  template: src={{ item }} dest=/etc/opencast/
+  with_items:
+    - org.opencastproject.organization-mh_default_org.cfg
+    - custom.properties
