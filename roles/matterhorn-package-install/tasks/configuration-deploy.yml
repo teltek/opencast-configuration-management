@@ -1,0 +1,6 @@
+---
+
+- name: config.properties deploy
+  template: src=custom.properties dest=/etc/matterhorn/custom.properties
+
+

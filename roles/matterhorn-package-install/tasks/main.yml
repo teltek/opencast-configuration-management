@@ -1,0 +1,6 @@
+---
+
+- include: "centos-install.yml"
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'CentOS'
+
+- include: "configuration-deploy.yml"
