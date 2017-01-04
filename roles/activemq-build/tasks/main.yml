@@ -41,7 +41,7 @@
   sudo: yes
 
 - name: Applying ActiveMQ configuration
-  shell: cp -rv {{mh_base_dir}}/docs/scripts/activemq/activemq.xml {{activemq_home_dir}}/conf/
+  copy: src="activemq.xml" dest="/etc/activemq/activemq.xml"
 
 - name: Installing ActiveMQ init script
   file: src={{activemq_home_dir}}/bin/activemq dest=/etc/init.d/activemq state=link
