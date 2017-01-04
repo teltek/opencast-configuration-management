@@ -1,15 +1,4 @@
 ---
 
-- name: Install nux repo key
-  rpm_key: state=present key="http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro"
-
-- name: Install nux repo rpm
-  yum: name={{ item }} state=present
-  with_items:
-    - http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
-
-- name: Install EPEL and ffmpeg
-  yum: update_cache=yes name={{ item }} state=present
-  with_items:
-    - epel-release
-    - ftp://rpmfind.net/linux/opensuse/update/leap/42.1/oss/x86_64/ffmpeg-2.8.8-22.1.x86_64.rpm
+- include: "centos-install.yml"
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'CentOS'
