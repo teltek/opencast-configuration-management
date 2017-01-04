@@ -28,9 +28,6 @@ ingest.example.org
 [capture]
 capture.example.org
 
-[database]
-database.example.org
-
 [solr]
 solr.example.org
 
