@@ -2,8 +2,8 @@
 
 - name: Install lkiesow activemq repository
   yum_repository:
-    name: "Copr repo for apache-activemq-dist owned by lkiesow"
-    description: "Copr repo for apache-activemq-dist owned by lkiesow"
+    name: "apache-activemq-dist_lkiesow"
+    description: "apache-activemq-dist repo owned by lkiesow"
     baseurl: "https://copr-be.cloud.fedoraproject.org/results/lkiesow/apache-activemq-dist/epel-7-$basearch/"
     gpgkey: "https://copr-be.cloud.fedoraproject.org/results/lkiesow/apache-activemq-dist/pubkey.gpg"
     gpgcheck: 1
