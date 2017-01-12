@@ -1,0 +1,9 @@
+<solr persistent="true">
+	<cores adminPath="/admin/cores" sharedLib="lib">
+	<core name="search" instanceDir="search" />
+	<core name="workflow" instanceDir="workflow" />
+        <core name="archive" instanceDir="archive" />
+        <core name="series" instanceDir="series" />
+        <core name="scheduler" instanceDir="scheduler" />
+    </cores>
+</solr>

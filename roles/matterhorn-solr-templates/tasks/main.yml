@@ -1,0 +1,43 @@
+---
+
+- name: Stop solr
+  service:
+    name: "solr"
+    state: stopped
+
+- name: Copy search SOLR config
+  copy: src="search" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Copy workflow SOLR config
+  copy: src="workflow" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Copy scheduler SOLR config
+  copy: src="scheduler" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Copy series SOLR config
+  copy: src="series" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Copy archive SOLR config
+  copy: src="archive" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Copy solr config xml file
+  copy: src="solr.xml" dest="/opt/solr/" owner=solr group=solr
+  tags:
+    - indexes_configs
+
+- name: Restart solr
+  service:
+    name: "solr"
+    state: started
+    enabled: yes
+
