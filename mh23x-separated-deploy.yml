@@ -1,0 +1,59 @@
+---
+# This playbook deploys a full Matterhorn cluster
+
+- hosts: activemq
+  user: "{{matterhorn_user}}"
+  hosts: activemq
+  sudo: yes
+  roles:
+    - activemq-package-install
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
+
+- hosts: admin
+  user: "{{matterhorn_user}}"
+  sudo: yes
+  hosts: admin
+  sudo: yes
+  roles:
+    - ffmpeg-package-install
+    - matterhorn-package-install
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
+    - roles/admin-build/vars/admin.yml
+
+- hosts: solr
+  user: "{{matterhorn_user}}"
+  sudo: yes
+  roles:
+    - selinux  
+    - geerlingguy.java
+    - geerlingguy.solr
+    - matterhorn-solr-templates
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
+
+- hosts: presentation
+  user: "{{matterhorn_user}}"
+  sudo: yes
+  hosts: presentation
+  roles:
+    - ffmpeg-package-install
+    - matterhorn-package-install
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
+
+- hosts: worker
+  user: "{{matterhorn_user}}"
+  hosts: worker
+  sudo: yes
+  roles:
+    - ffmpeg-package-install
+    - matterhorn-package-install
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
