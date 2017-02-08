@@ -1,6 +1,23 @@
 ---
 # This playbook deploys a full Opencast cluster
 
+- hosts: opencast
+  become: yes
+  tasks:
+    - name: Add opencast group
+      group:
+        name: opencast
+        state: present
+
+    - name: Add opencast user
+      user:
+        name: opencast
+        state: present
+        group: opencast
+        groups: root
+        password: opencast
+      
+
 - hosts: fileserver
   user: "{{opencast_user}}"
 
@@ -36,8 +53,8 @@
 
   roles:
     - maven
-    - opencast-base
-    - opencast-core
+    - matterhorn-base
+    - matterhorn-core
     - admin-build
     - nginx-build
   vars_files:
@@ -71,8 +88,8 @@
 
   roles:
     - maven
-    - opencast-base
-    - opencast-core
+    - matterhorn-base
+    - matterhorn-core
     - node.js-build
     - engage-build
     - nginx-build
@@ -87,8 +104,8 @@
 
   roles:
     - maven
-    - opencast-base
-    - opencast-core
+    - matterhorn-base
+    - matterhorn-core
     - ingest-build
     - nginx-build
   vars_files:
@@ -106,8 +123,8 @@
     - hunspell
     - sox
     - tesseract
-    - opencast-base
-    - opencast-core
+    - matterhorn-base
+    - matterhorn-core
     - worker-build
     - nginx-build
   vars_files:
