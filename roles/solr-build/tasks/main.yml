@@ -15,34 +15,34 @@
 - include: ../../common/tasks/create_tools_bin.yml
 
 - name: Fix MH parent dir permissions
-  file: path={{mh_tools_dir}}/ owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory recurse=true
+  file: path={{oc_tools_dir}}/ owner="{{opencast_user}}" group="{{opencast_group}}" state=directory recurse=true
   sudo: true
 
   #Mount NFS
 - include: ../../common/tasks/nfs_mount_ro.yml
 
-- include: ../../common/tasks/clone_mh.yml
+- include: ../../common/tasks/clone_oc.yml
 
 #TODO: Modernize this/rip this out once we switch away from Solr
 - name: Downloading Tomcat
   get_url: url=http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.5-beta/bin/apache-tomcat-7.0.5.zip
-           dest={{mh_tool_archive_dir}}/apache-tomcat-7.0.5.zip
+           dest={{oc_tool_archive_dir}}/apache-tomcat-7.0.5.zip
            force=no
            mode=0644
 
 - name: Unzipping Tomcat
-  unarchive: src={{mh_tool_archive_dir}}/apache-tomcat-7.0.5.zip dest={{mh_tools_dir}} copy=no
+  unarchive: src={{oc_tool_archive_dir}}/apache-tomcat-7.0.5.zip dest={{oc_tools_dir}} copy=no
             creates={{tomcat_dir}}
 
 - name: Downloading Solr
   get_url: url=http://archive.apache.org/dist/lucene/solr/1.4.1/apache-solr-1.4.1.zip
-           dest={{mh_tool_archive_dir}}/apache-solr-1.4.1.zip
+           dest={{oc_tool_archive_dir}}/apache-solr-1.4.1.zip
            force=no
            mode=0644
 
 - name: Unzipping Solr
-  unarchive: src={{mh_tool_archive_dir}}/apache-solr-1.4.1.zip dest={{mh_tools_dir}} copy=no
-            creates={{mh_tools_dir}}/apache-solr-1.4.1
+  unarchive: src={{oc_tool_archive_dir}}/apache-solr-1.4.1.zip dest={{oc_tools_dir}} copy=no
+            creates={{oc_tools_dir}}/apache-solr-1.4.1
 
 - name: Checking if Solr exists
   stat: path=/etc/init.d/solr
@@ -61,31 +61,31 @@
 
 - name: Applying Solr to Tomcat
   shell: unzip apache-solr-1.4.1/example/webapps/solr.war -d apache-tomcat-7.0.5/webapps/solr
-         chdir={{mh_tools_dir}}
+         chdir={{oc_tools_dir}}
          creates=apache-tomcat-7.0.5/webapps/solr
 
 - name: Copying Engage search index
-  shell: cp -rv {{mh_base_dir}}/modules/matterhorn-search-service-impl/src/main/resources/solr {{solr_data_dir}}
-         chdir={{mh_tools_dir}}
+  shell: cp -rv {{oc_base_dir}}/modules/opencast-search-service-impl/src/main/resources/solr {{solr_data_dir}}
+         chdir={{oc_tools_dir}}
 
 - name: Creating lib directory
-  file: path={{solr_data_dir}}/lib owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory
+  file: path={{solr_data_dir}}/lib owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
 
 - name: Copying required Solr jar
-  shell: cp -rv {{m2_repo}}/org/opencastproject/matterhorn-solr/{{mh_pom_version}}/matterhorn-solr-{{mh_pom_version}}.jar {{solr_data_dir}}/lib
-         chdir={{mh_tools_dir}}
+  shell: cp -rv {{m2_repo}}/org/opencastproject/opencast-solr/{{oc_pom_version}}/opencast-solr-{{oc_pom_version}}.jar {{solr_data_dir}}/lib
+         chdir={{oc_tools_dir}}
 
 - name: Configure Tomcat
-  template: src=server.xml dest={{mh_tools_dir}}/apache-tomcat-7.0.5/conf/
+  template: src=server.xml dest={{oc_tools_dir}}/apache-tomcat-7.0.5/conf/
 
 - name: Configure Solr
   template: src=solrconfig.xml dest={{solr_data_dir}}/conf/
 
 - name: Creating Tomcat configuration directory
-  file: path={{mh_tools_dir}}/apache-tomcat-7.0.5/conf/Catalina/localhost/ owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory
+  file: path={{oc_tools_dir}}/apache-tomcat-7.0.5/conf/Catalina/localhost/ owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
 
 - name: Configure Tomcat Solr configuration
-  template: src=solr.xml dest={{mh_tools_dir}}/apache-tomcat-7.0.5/conf/Catalina/localhost/
+  template: src=solr.xml dest={{oc_tools_dir}}/apache-tomcat-7.0.5/conf/Catalina/localhost/
 
 - name: Creating Solr init script
   template: src=solr-init.sh dest=/etc/init.d/solr
@@ -96,7 +96,7 @@
   sudo: yes
 
 - name: Fix Tomcat script file permissions
-  shell: chmod 0755 {{mh_tools_dir}}/apache-tomcat-7.0.5/bin/*.sh
+  shell: chmod 0755 {{oc_tools_dir}}/apache-tomcat-7.0.5/bin/*.sh
 
 - name: Setting Solr to start on boot
   service: name=solr state=stopped enabled=yes

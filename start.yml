@@ -2,7 +2,7 @@
 # This playbook starts a full Matterhorn cluster
 
 - hosts: solr
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - solr-start
@@ -11,7 +11,7 @@
 
 
 - hosts: activemq
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - activemq-start
@@ -20,27 +20,27 @@
 
 
 - hosts: admin
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - nginx-start
-    - matterhorn-start
+    - opencast-start
   vars_files:
     - group_vars/common.yml
 
 
-- hosts: matterhorn
-  user: "{{matterhorn_user}}"
+- hosts: opencast
+  user: "{{opencast_user}}"
 
   roles:
     - nginx-start
-    - matterhorn-start
+    - opencast-start
   vars_files:
     - group_vars/common.yml
 
 
 - hosts: capture
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - pyca-start

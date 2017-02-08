@@ -29,7 +29,7 @@ all-in-one.example.org
 all-in-one.example.org
 
 
-[matterhorn:children]
+[opencast:children]
 admin
 worker
 engage

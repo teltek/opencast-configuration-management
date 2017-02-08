@@ -1,19 +1,25 @@
 ---
 
-- name: Install NFS server
-  apt: pkg=nfs-kernel-server state=present
+- name: Install NFS server in Debian or Ubuntu
+  yum: pkg=nfs-kernel-server state=present
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install NFS server in RHEL or CentOS
+  yum: pkg=nfs-utils state=present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Create MH storage dir
-  file: path={{ mh_work_dir }} owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory
+  file: path={{ oc_work_dir }} owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
   sudo: yes
 
 - name: Fix MH parent dir permissions
-  file: path={{mh_parent_dir}}/ owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory recurse=true
+  file: path={{oc_parent_dir}}/ owner="{{opencast_user}}" group="{{opencast_group}}" state=directory recurse=true
   sudo: true
 
 - name: Setup NFS Exports
-  nfsexport: path={{mh_work_dir}} clients="{{nfs_exports}}" options="rw,no_subtree_check"
+  nfsexport: path={{oc_work_dir}} clients="{{nfs_exports}}" options="rw,no_subtree_check"
   sudo: yes
 
 - name: Check for Portmap

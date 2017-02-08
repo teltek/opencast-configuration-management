@@ -2,5 +2,5 @@
 
 - name: Checkout correct version of Matterhorn
   git: repo={{git_repo_location}}
-       dest={{mh_base_dir}}
-       version={{mh_version}}
+       dest={{oc_base_dir}}
+       version={{oc_version}}

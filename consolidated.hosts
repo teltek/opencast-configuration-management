@@ -1,34 +1,33 @@
 [fileserver]
-admin.example.org
+admin.example.org ansible_ssh_user=vagrant 
 
 [mysql]
-admin.example.org
+admin.example.org ansible_ssh_user=vagrant
 
 [activemq]
-admin.example.org
+admin.example.org ansible_ssh_user=vagrant
 
 [admin]
-admin.example.org
+admin.example.org ansible_ssh_user=vagrant
 
 [streamer]
-engage.example.org
+engage.example.org ansible_ssh_user=vagrant
 
 [solr]
-engage.example.org
+engage.example.org ansible_ssh_user=vagrant
 
 [worker]
-worker.example.org
+worker.example.org ansible_ssh_user=vagrant
 
 [engage]
-engage.example.org
+engage.example.org ansible_ssh_user=vagrant
 
 [ingest]
 
 [capture]
 
 
-[matterhorn:children]
-admin
-worker
-engage
-ingest
+[opencast]
+admin  ansible_ssh_user=vagrant
+worker  ansible_ssh_user=vagrant
+engage  ansible_ssh_user=vagrant

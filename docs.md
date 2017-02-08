@@ -14,7 +14,7 @@ Matterhorn is a complex piece of software that can be difficult to set up for a 
 
 ### Quick Start
 
-If you are just looking to get a running Matterhorn system at this point, then you need only do two things:  Modify the group\_vars/common.yml, and your .hosts file.  Setup your hosts file to match your environment, and then set up the mh\_version and mh\_pom\_version variables in common.yml to match the version of Matterhorn you wish to install.  Then run _ansible-playbook -K -i $hosts_file.hosts $playbook.yml_ and wait
+If you are just looking to get a running Matterhorn system at this point, then you need only do two things:  Modify the group\_vars/common.yml, and your .hosts file.  Setup your hosts file to match your environment, and then set up the oc\_version and oc\_pom\_version variables in common.yml to match the version of Matterhorn you wish to install.  Then run _ansible-playbook -K -i $hosts_file.hosts $playbook.yml_ and wait
 
 ### Details
 
@@ -29,11 +29,11 @@ To begin, we first must first change the .hosts file to match our environment.  
 Now that you have defined which plays should run on each node, it's time to examine the playbooks themselves.  We have two major playbooks defined in this project - _all-in-one.yml_, and _distributed.yml_.  In this example we will use the distributed.yml file since we will be deploying a distributed cluster.  This playbook contains a number of different plays, each of which contains several roles.  These plays are executed in the order which they are defined.  As an example, the admin play looks like this, and executes after the fileserver role:
 
     - hosts: admin
-      user: matterhorn
+      user: opencast
     
       roles:
-        - matterhorn-base
-        - matterhorn-core
+        - opencast-base
+        - opencast-core
         - admin-build
         - nginx-build
       vars_files:
@@ -42,11 +42,11 @@ Now that you have defined which plays should run on each node, it's time to exam
         - roles/admin-build/vars/admin.yml
 
 
-This means that the _matterhorn_ user should be used to run all of roles listed, using the variables in the listed variable files, on each host tagged with the admin playbook.  Each role defines a piece of the puzzle which forms the final, installed, software on the node.  These can be very complex, or very simple.  The _matterhorn-core_ role, for example, sets up all of the relevant configuration items in config.properties.  Each role contains a number of tasks, or steps, and lives in the roles directory.  These roles should be relatively stable and should not need modification, assuming you are using a Debian based system.  If you are running a different type of system then you will obviously need to modify things!
+This means that the _opencast_ user should be used to run all of roles listed, using the variables in the listed variable files, on each host tagged with the admin playbook.  Each role defines a piece of the puzzle which forms the final, installed, software on the node.  These can be very complex, or very simple.  The _opencast-core_ role, for example, sets up all of the relevant configuration items in config.properties.  Each role contains a number of tasks, or steps, and lives in the roles directory.  These roles should be relatively stable and should not need modification, assuming you are using a Debian based system.  If you are running a different type of system then you will obviously need to modify things!
 
 #### Variables
 
-At this point we delve into variables.  For the most part you should not need to modify the variables aside from the mh\_version and mh\_pom\_version variables, but for completeness we will examine what the various variable files do.  Ansible's variable files have an inheritance structure, which flows from global variables (group\_vars/\*.yml), to role variables (roles/\*/vars/\*), to task variables (items within roles/\*/tasks/\*).
+At this point we delve into variables.  For the most part you should not need to modify the variables aside from the oc\_version and oc\_pom\_version variables, but for completeness we will examine what the various variable files do.  Ansible's variable files have an inheritance structure, which flows from global variables (group\_vars/\*.yml), to role variables (roles/\*/vars/\*), to task variables (items within roles/\*/tasks/\*).
 
 ### Extending this codebase (Advanced)
 
@@ -56,4 +56,4 @@ Say you want to add a new role which installs Flash Media Server instead of Ngin
 
 #### Making this work for other systems (e.g: RPM based distros)
 
-The two major blockers for this script working on other distros are the package manager, and the paths.  In the case of the package manager, we need only figure out which package(s) provide the same functionality as the Apt packages and either replace the apt tasks, or add some intelligence to the install so that it choses apt or yum depending on the OS family.  See http://docs.ansible.com/playbooks_conditionals.html#the-when-statement for more details.  The paths are less of an issue, but still something that will need to be addressed.  These scripts assume a current Ubuntu filesystem, and init system.  This means we are using rc.d scripts, and all of our files are installed somewhere under /opt/matterhorn.  This may be an issue, or it may not, depending on the target flavour.
+The two major blockers for this script working on other distros are the package manager, and the paths.  In the case of the package manager, we need only figure out which package(s) provide the same functionality as the Apt packages and either replace the apt tasks, or add some intelligence to the install so that it choses apt or yum depending on the OS family.  See http://docs.ansible.com/playbooks_conditionals.html#the-when-statement for more details.  The paths are less of an issue, but still something that will need to be addressed.  These scripts assume a current Ubuntu filesystem, and init system.  This means we are using rc.d scripts, and all of our files are installed somewhere under /opt/opencast.  This may be an issue, or it may not, depending on the target flavour.

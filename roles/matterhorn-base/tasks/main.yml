@@ -17,15 +17,15 @@
   sudo: yes
 
 - name: Create MH parent dir
-  file: path={{ mh_parent_dir }} owner={{matterhorn_user}} group={{matterhorn_group}} state=directory
+  file: path={{ oc_parent_dir }} owner={{opencast_user}} group={{opencast_group}} state=directory
   sudo: yes
 
 - name: Fix MH parent dir permissions
-  file: path={{mh_parent_dir}}/ owner={{matterhorn_user}} group={{matterhorn_group}} state=directory recurse=true
+  file: path={{oc_parent_dir}}/ owner={{opencast_user}} group={{opencast_group}} state=directory recurse=true
   sudo: true
 
 - name: Create MH shared dir
-  file: path={{mh_work_dir}} owner={{matterhorn_user}} group={{matterhorn_group}} state=directory
+  file: path={{oc_work_dir}} owner={{opencast_user}} group={{opencast_group}} state=directory
 
 - include: ../../common/tasks/create_tools_bin.yml
 
@@ -34,27 +34,27 @@
   lineinfile: dest=/etc/environment
               state=present
               backrefs=yes
-              regexp='PATH=(["]*)((?!.*?{{mh_tools_bin}}).*?)(["]*)$'
-              line="PATH=\1\2:{{mh_tools_bin}}\3"
+              regexp='PATH=(["]*)((?!.*?{{oc_tools_bin}}).*?)(["]*)$'
+              line="PATH=\1\2:{{oc_tools_bin}}\3"
   sudo: yes
 
 - name: Checking if Matterhorn is already installed
-  stat: path=/etc/init.d/matterhorn
-  register: matterhorn_installed
+  stat: path=/etc/init.d/opencast
+  register: opencast_installed
 
 - name: Stopping Matterhorn
-  service: name=matterhorn state=stopped
-  when: matterhorn_installed.stat.exists is defined and matterhorn_installed.stat.exists == True
+  service: name=opencast state=stopped
+  when: opencast_installed.stat.exists is defined and opencast_installed.stat.exists == True
   sudo: yes
 
-- include: ../../common/tasks/clone_mh.yml
+- include: ../../common/tasks/clone_oc.yml
 
 - name: Check if Matterhorn is symlinked
-  stat: path={{mh_parent_dir}}/felix
+  stat: path={{oc_parent_dir}}/felix
   register: felix_done
 
 - name: Symlinking Matterhorn
-  file: src=matterhorn dest=felix state=link
-         chdir={{mh_parent_dir}}
+  file: src=opencast dest=felix state=link
+         chdir={{oc_parent_dir}}
   ignore_errors: True
   when: felix_done.stat.islink is defined and felix_done.stat.islink == True

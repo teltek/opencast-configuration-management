@@ -1,13 +1,13 @@
 ---
 
 - name: Delete Matterhorn data
-  file: path={{mh_parent_dir}}/work/ state=absent
+  file: path={{oc_parent_dir}}/work/ state=absent
   when: "'fileserver' in group_names"
   sudo: yes
 
 - name: Recreate work directory
-  file: path={{mh_parent_dir}}/work/ owner={{matterhorn_user}} group={{matterhorn_group}} state=directory
+  file: path={{oc_parent_dir}}/work/ owner={{opencast_user}} group={{opencast_group}} state=directory
   when: "'fileserver' in group_names"
   sudo: yes
 
-- include: clean_mh_logs.yml
+- include: clean_oc_logs.yml

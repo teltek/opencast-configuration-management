@@ -1,25 +1,25 @@
 ---
 
 - name: Checking if Matterhorn exists
-  stat: path=/etc/init.d/matterhorn
-  register: matterhornpresent
+  stat: path=/etc/init.d/opencast
+  register: opencastpresent
 
 - name: Install httplib2
   apt: pkg=python-httplib2 state=present
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
   sudo: yes
 
 - name: Starting Matterhorn
-  service: name=matterhorn state=started
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True
+  service: name=opencast state=started
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
   sudo: yes
 
 - name: Waiting on Matterhorn to be available
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
   wait_for: port=8080
 
 - name: Waiting until Matterhorn page contains `Opencast Video Capture Software` string
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True and 'admin' in group_names
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True and 'admin' in group_names
   uri: url=http://{{ inventory_hostname }} return_content=true
   register: response
   until: response.content is defined and response.content | search("Opencast Video Capture Software")
@@ -27,7 +27,7 @@
   retries: 12
 
 - name: Waiting until Matterhorn page contains `Welcome to Matterhorn` string
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True and 'admin' not in group_names
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True and 'admin' not in group_names
   uri: url=http://{{ inventory_hostname }} return_content=true
   register: response
   until: response.content is defined and response.content | search("Welcome to Matterhorn")

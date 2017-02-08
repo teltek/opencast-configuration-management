@@ -1,10 +1,10 @@
 ---
 
 - name: Checking if Matterhorn exists
-  stat: path=/etc/init.d/matterhorn
-  register: matterhornpresent
+  stat: path=/etc/init.d/opencast
+  register: opencastpresent
 
 - name: Stopping Matterhorn
-  service: name=matterhorn state=stopped
+  service: name=opencast state=stopped
   sudo: yes
-  when: matterhornpresent.stat.exists is defined and matterhornpresent.stat.exists == True
+  when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True

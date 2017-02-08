@@ -4,10 +4,10 @@
 - include: stop.yml
 
 - hosts: admin
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
-    - matterhorn-clean
+    - opencast-clean
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
@@ -15,7 +15,7 @@
 
 
 - hosts: activemq
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - activemq-clean
@@ -25,7 +25,7 @@
 
 
 - hosts: solr
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - solr-clean
@@ -35,7 +35,7 @@
 
 
 - hosts: mysql
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - mysql-clean

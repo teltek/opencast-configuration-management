@@ -18,5 +18,5 @@
   when: pycapresent.stat.exists is defined and pycapresent.stat.exists == True
 
 - name: Wipe Matterhorn root directory
-  file: path={{mh_parent_dir}} state=absent
+  file: path={{oc_parent_dir}} state=absent
   sudo: yes

@@ -2,7 +2,7 @@
 # This playbook deploys a full Matterhorn cluster
 
 - hosts: mysql
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - mysql-build
@@ -12,7 +12,7 @@
 
 
 - hosts: activemq
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - activemq-build
@@ -22,13 +22,13 @@
 
 
 - hosts: admin
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - maven
     - ffmpeg
-    - matterhorn-base
-    - matterhorn-core
+    - opencast-base
+    - opencast-core
     - admin-build
     - nginx-build
   vars_files:
@@ -38,7 +38,7 @@
 
 
 - hosts: streamer
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - nginx-build
@@ -48,7 +48,7 @@
 
 
 - hosts: solr
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - solr-build
@@ -58,12 +58,12 @@
 
 
 - hosts: engage
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - maven
-    - matterhorn-base
-    - matterhorn-core
+    - opencast-base
+    - opencast-core
     - node.js-build
     - engage-build
     - nginx-build
@@ -74,7 +74,7 @@
 
 
 - hosts: worker
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - maven
@@ -82,8 +82,8 @@
     - hunspell
     - sox
     - tesseract
-    - matterhorn-base
-    - matterhorn-core
+    - opencast-base
+    - opencast-core
     - worker-build
     - nginx-build
   vars_files:
@@ -93,7 +93,7 @@
 
 
 - hosts: capture
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - pyca-build

@@ -17,11 +17,11 @@
   sudo: yes
 
 - name: Create MH parent dir
-  file: path={{mh_parent_dir}}/ owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory recurse=true
+  file: path={{oc_parent_dir}}/ owner="{{opencast_user}}" group="{{opencast_group}}" state=directory recurse=true
   sudo: true
 
 - name: Checking if nginx binary exists
-  stat: path={{mh_tools_dir}}/nginx/sbin/nginx
+  stat: path={{oc_tools_dir}}/nginx/sbin/nginx
   register: nginxpresent
 
 - include: ../../nginx-stop/tasks/main.yml
@@ -29,56 +29,56 @@
 - include: ../../common/tasks/create_tools_bin.yml
 
 - name: Create MH shared dir
-  file: path={{mh_work_dir}} owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory
+  file: path={{oc_work_dir}} owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
 
   #Mount NFS
 - include: ../../common/tasks/nfs_mount.yml
   when: inventory_hostname in groups['streamer']
 
 - name: Create MH streams dir
-  file: path={{mh_streaming_dir}} owner="{{matterhorn_user}}" group="{{matterhorn_group}}" state=directory
+  file: path={{oc_streaming_dir}} owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
   when: inventory_hostname in groups['streamer']
 
 - name: Downloading nginx
   get_url: url=http://nginx.org/download/nginx-{{nginx_version}}.tar.gz
-           dest={{mh_tool_archive_dir}}/nginx-{{nginx_version}}.tar.gz
+           dest={{oc_tool_archive_dir}}/nginx-{{nginx_version}}.tar.gz
            force=no
 
 - name: Decompressing nginx
-  unarchive: src={{mh_tool_archive_dir}}/nginx-{{nginx_version}}.tar.gz dest={{mh_tools_dir}} copy=no
+  unarchive: src={{oc_tool_archive_dir}}/nginx-{{nginx_version}}.tar.gz dest={{oc_tools_dir}} copy=no
             creates={{nginx_home}}
 
 - name: Downloading RTMP module for nginx
   git: repo=https://github.com/arut/nginx-rtmp-module
-       dest={{mh_tools_dir}}/nginx-rtmp-module
+       dest={{oc_tools_dir}}/nginx-rtmp-module
        update=yes
   when: inventory_hostname in groups['streamer']
 
 - name: Preparing to build nginx
-  shell: ./configure --prefix={{mh_tools_dir}}/nginx --pid-path=/var/run/nginx.pid
-         chdir={{mh_tools_dir}}/nginx-1.2.4
+  shell: ./configure --prefix={{oc_tools_dir}}/nginx --pid-path=/var/run/nginx.pid
+         chdir={{oc_tools_dir}}/nginx-1.2.4
   when: inventory_hostname not in groups['streamer']
 
 
 - name: Preparing to build nginx with streaming components
-  shell: ./configure --add-module={{mh_tools_dir}}/nginx-rtmp-module --prefix={{mh_tools_dir}}/nginx --pid-path=/var/run/nginx.pid
-         chdir={{mh_tools_dir}}/nginx-1.2.4
+  shell: ./configure --add-module={{oc_tools_dir}}/nginx-rtmp-module --prefix={{oc_tools_dir}}/nginx --pid-path=/var/run/nginx.pid
+         chdir={{oc_tools_dir}}/nginx-1.2.4
   when: inventory_hostname in groups['streamer']
 
 - name: Building nginx
   shell: make
-         chdir={{mh_tools_dir}}/nginx-1.2.4
+         chdir={{oc_tools_dir}}/nginx-1.2.4
 
 - name: Installing nginx
   shell: make install
-         chdir={{mh_tools_dir}}/nginx-1.2.4
+         chdir={{oc_tools_dir}}/nginx-1.2.4
 
 - name: Configuring nginx for http
-  template: src=nginx-http.conf dest={{mh_tools_dir}}/nginx/conf/nginx.conf
+  template: src=nginx-http.conf dest={{oc_tools_dir}}/nginx/conf/nginx.conf
   when: inventory_hostname not in groups['streamer'] and build_nginx
 
 - name: Configuring nginx for http and streaming
-  template: src=nginx-streaming.conf dest={{mh_tools_dir}}/nginx/conf/nginx.conf
+  template: src=nginx-streaming.conf dest={{oc_tools_dir}}/nginx/conf/nginx.conf
   when: inventory_hostname in groups['streamer'] and build_nginx
 
 - name: Configuring nginx init script

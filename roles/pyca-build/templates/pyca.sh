@@ -26,7 +26,7 @@
 
 
 DAEMON_NAME="pyca"
-DAEMON_USER="{{matterhorn_user}}"
+DAEMON_USER="{{opencast_user}}"
 DAEMON_PATH="{{pyca_base_dir}}/start.sh"
 DAEMON_OPTS=""
 DAEMON_PWD="${PWD}"

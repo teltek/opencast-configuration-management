@@ -2,7 +2,7 @@
 # This playbook stops a full Matterhorn cluster
 
 - hosts: capture
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - pyca-stop
@@ -10,18 +10,18 @@
     - group_vars/common.yml
 
 
-- hosts: matterhorn
-  user: "{{matterhorn_user}}"
+- hosts: opencast
+  user: "{{opencast_user}}"
 
   roles:
-    - matterhorn-stop
+    - opencast-stop
     - nginx-stop
   vars_files:
     - group_vars/common.yml
 
 
 - hosts: activemq
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - activemq-stop
@@ -30,7 +30,7 @@
 
 
 - hosts: solr
-  user: "{{matterhorn_user}}"
+  user: "{{opencast_user}}"
 
   roles:
     - solr-stop

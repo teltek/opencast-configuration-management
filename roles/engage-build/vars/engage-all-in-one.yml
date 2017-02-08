@@ -1,2 +1,2 @@
 ---
-mh_build_profile: engage,dist,serviceregistry,workspace
+oc_build_profile: engage,dist,serviceregistry,workspace

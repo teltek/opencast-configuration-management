@@ -1,2 +1,2 @@
 ---
-mh_build_profile: admin,dist-stub,engage-stub,worker-stub,workspace,serviceregistry
+oc_build_profile: admin,dist-stub,engage-stub,worker-stub,workspace,serviceregistry

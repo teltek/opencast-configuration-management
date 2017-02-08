@@ -4,4 +4,4 @@
 - include: ../../common/tasks/nfs_mount.yml
 
   #Build the system
-- include: ../../common/tasks/build_mh.yml
+- include: ../../common/tasks/build_oc.yml

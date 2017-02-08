@@ -27,15 +27,15 @@
 - include: ../../pyca-stop/tasks/main.yml
 
 - name: Create pyCA parent dir
-  file: path={{mh_parent_dir}}/ owner={{matterhorn_user}} group={{matterhorn_user}} state=directory recurse=true
+  file: path={{oc_parent_dir}}/ owner={{opencast_user}} group={{opencast_user}} state=directory recurse=true
   sudo: yes
 
 - name: Create pyCA log dir
-  file: path={{pyca_log_dir}} owner={{matterhorn_user}} group={{matterhorn_user}} state=directory recurse=true
+  file: path={{pyca_log_dir}} owner={{opencast_user}} group={{opencast_user}} state=directory recurse=true
   sudo: yes
 
 - name: Pushing SSH configs
-  copy: src=../../../group_vars/ssh/ dest=/home/{{matterhorn_user}}/.ssh mode=600
+  copy: src=../../../group_vars/ssh/ dest=/home/{{opencast_user}}/.ssh mode=600
 
 - name: Checkout pyCA
   git: repo={{pyca_repo_location}}
