@@ -1,5 +1,5 @@
 ---
-# This playbook destroys a full Matterhorn cluster, data and binaries included
+# This playbook destroys a full Opencast cluster, data and binaries included
 
 - include: stop.yml
 

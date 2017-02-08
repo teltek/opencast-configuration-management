@@ -38,22 +38,22 @@
               line="PATH=\1\2:{{oc_tools_bin}}\3"
   sudo: yes
 
-- name: Checking if Matterhorn is already installed
+- name: Checking if Opencast is already installed
   stat: path=/etc/init.d/opencast
   register: opencast_installed
 
-- name: Stopping Matterhorn
+- name: Stopping Opencast
   service: name=opencast state=stopped
   when: opencast_installed.stat.exists is defined and opencast_installed.stat.exists == True
   sudo: yes
 
 - include: ../../common/tasks/clone_oc.yml
 
-- name: Check if Matterhorn is symlinked
+- name: Check if Opencast is symlinked
   stat: path={{oc_parent_dir}}/felix
   register: felix_done
 
-- name: Symlinking Matterhorn
+- name: Symlinking Opencast
   file: src=opencast dest=felix state=link
          chdir={{oc_parent_dir}}
   ignore_errors: True

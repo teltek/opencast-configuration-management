@@ -1,18 +1,18 @@
-## Standalone Matterhorn Deployment
+## Standalone Opencast Deployment
 
 - Requires Ansible 1.3 or newer
 - Expects Ubuntu 12.04 or 14.04 hosts, should work on Debian
 
-These playbooks deploy a full Matterhorn 2.0 cluster, from source.
+These playbooks deploy a full Opencast 2.0 cluster, from source.
 To use them, first edit the "hosts" inventory file to contain the
-hostnames of the machines on which you want Matterhorn deployed, and edit the 
+hostnames of the machines on which you want Opencast deployed, and edit the 
 group_vars files to set any Tomcat configuration parameters you need.
 
 Then run the playbook, like this:
 
 	ansible-playbook -K -i $hosts_file.hosts $playbook.yml
 
-When the playbook run completes, you should be able to see Matterhorn on the 
+When the playbook run completes, you should be able to see Opencast on the 
 port 80, on the target machines.
 
 This playbook is *not* meant to deploy production machines, although it could

@@ -1,5 +1,5 @@
 ---
-# This playbook stops a full Matterhorn cluster
+# This playbook stops a full Opencast cluster
 
 - hosts: capture
   user: "{{opencast_user}}"

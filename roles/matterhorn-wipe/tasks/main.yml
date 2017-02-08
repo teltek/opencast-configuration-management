@@ -2,12 +2,12 @@
 
 - include: ../../opencast-stop/tasks/main.yml
 
-- name: Stop and disable Matterhorn
+- name: Stop and disable Opencast
   service: name=opencast state=stopped enabled=no
   sudo: yes
   when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
 
-- name: Removing Matterhorn init script
+- name: Removing Opencast init script
   file: path=/etc/init.d/opencast state=absent
   sudo: yes
   when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
@@ -17,12 +17,12 @@
   sudo: yes
   when: nfs_server is defined and 'fileserver' not in group_names
 
-- name: Removing Matterhorn log directory
+- name: Removing Opencast log directory
   file: path={{oc_log_dir}} state=absent
   sudo: yes
   when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
 
-- name: Remove Matterhorn configuration directory
+- name: Remove Opencast configuration directory
   file: path={{oc_config_dir}} state=absent
   sudo: yes
   when: opencastpresent.stat.exists is defined and opencastpresent.stat.exists == True
@@ -36,6 +36,6 @@
   sudo: yes
   when: "'fileserver' in group_names and mavenpresent.stat.exists is defined and mavenpresent.stat.exists == True"
 
-- name: Wipe Matterhorn root directory
+- name: Wipe Opencast root directory
   file: path={{oc_parent_dir}} state=absent
   sudo: yes

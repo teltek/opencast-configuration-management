@@ -17,6 +17,6 @@
   sudo: yes
   when: pycapresent.stat.exists is defined and pycapresent.stat.exists == True
 
-- name: Wipe Matterhorn root directory
+- name: Wipe Opencast root directory
   file: path={{oc_parent_dir}} state=absent
   sudo: yes

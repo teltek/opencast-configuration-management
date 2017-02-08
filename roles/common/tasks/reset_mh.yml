@@ -1,6 +1,6 @@
 ---
 
-- name: Delete Matterhorn data
+- name: Delete Opencast data
   file: path={{oc_parent_dir}}/work/ state=absent
   when: "'fileserver' in group_names"
   sudo: yes

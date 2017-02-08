@@ -18,7 +18,7 @@
 - name: Symlinking Maven into tools directory
   file: src={{mvn_home}}/bin/mvn dest={{oc_tools_bin}}/mvn state=link
 
-- name: Configuring Maven for Matterhorn
+- name: Configuring Maven for Opencast
   lineinfile: dest=/home/{{opencast_user}}/.bash_aliases
               state=present
               create=yes

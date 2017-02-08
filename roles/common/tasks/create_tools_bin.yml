@@ -1,10 +1,10 @@
 ---
 
 #We're deliberately creating a the bin directory here since it also creates the tools dir
-- name: Creating Matterhorn tools directory
+- name: Creating Opencast tools directory
   file: path={{oc_tools_bin}} owner={{opencast_user}} group={{opencast_group}} state=directory
   sudo: yes
 
-- name: Creating Matterhorn tool archive directory
+- name: Creating Opencast tool archive directory
   file: path={{oc_tool_archive_dir}} owner={{opencast_user}} group={{opencast_group}} state=directory
   sudo: yes

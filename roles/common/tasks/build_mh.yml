@@ -15,5 +15,5 @@
          chdir={{oc_base_dir}}
   when: skip_tests and do_build
 
-- name: Stamping built Matterhorn version to disk
+- name: Stamping built Opencast version to disk
   shell: 'echo "`cd {{oc_base_dir}} && git rev-parse HEAD` from {{git_repo_location}} / {{oc_version}}" > {{oc_base_dir}}/build_version.txt'

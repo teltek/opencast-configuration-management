@@ -1,6 +1,6 @@
 ---
 
-- name: Clean Matterhorn log
+- name: Clean Opencast log
   file: path={{oc_log_dir}} state=absent
   sudo: yes
 

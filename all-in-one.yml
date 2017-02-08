@@ -1,5 +1,5 @@
 ---
-# This playbook deploys a full Matterhorn cluster
+# This playbook deploys a full Opencast cluster
 
 - hosts: mysql
   user: "{{opencast_user}}"

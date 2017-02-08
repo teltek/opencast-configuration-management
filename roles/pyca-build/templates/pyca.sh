@@ -1,9 +1,9 @@
 #!/bin/sh
 #
-# pyca         Start/Stop the Python Opencast Matterhorn Capture Agent
+# pyca         Start/Stop the Python Opencast Opencast Capture Agent
 #
 # chkconfig:   - 60 40
-# description: PyCA is a fully functional Opencast Matterhorn capture agent \
+# description: PyCA is a fully functional Opencast Opencast capture agent \
 #              written in Python. It is free software licenced under the \
 #              terms of the GNU Lesser General Public License.
 
@@ -14,7 +14,7 @@
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
 # Short-Description: run pyca
-# Description: PyCA is a fully functional Opencast Matterhorn capture agent
+# Description: PyCA is a fully functional Opencast Opencast capture agent
 #              written in Python. It is free software licenced under the terms
 #              of the GNU Lesser General Public : License.
 ### END INIT INFO

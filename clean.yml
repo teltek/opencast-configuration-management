@@ -1,5 +1,5 @@
 ---
-# This playbook resets a full Matterhorn cluster
+# This playbook resets a full Opencast cluster
 
 - include: stop.yml
 

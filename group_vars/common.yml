@@ -4,22 +4,22 @@
 #Note: If this is a protected repository you will need to make it ssh accessible, and populate the ssh directory in group_vars with an appropriate deployment key and known hosts file
 git_repo_location: https://bitbucket.org/opencast-community/opencast.git
 
-#The user to run the Matterhorn service(s) as.  This includes any Solr or nginx instances.
+#The user to run the Opencast service(s) as.  This includes any Solr or nginx instances.
 opencast_user: opencast
-#The group to run the Matterhorn service(s) as.  This includes any Solr or nginx instances.
+#The group to run the Opencast service(s) as.  This includes any Solr or nginx instances.
 opencast_group: opencast
 
 #Set this to true to enable the JVM debugging interface.  Do not do this for production systems.
 oc_debug: false
 
-#Matterhorn's admin username
+#Opencast's admin username
 oc_admin_username: admin
-#Matterhorn's admin password
+#Opencast's admin password
 oc_admin_password: opencast
-#Matterhorn's digest username
+#Opencast's digest username
 #Your CA will need this
 oc_digest_username: opencast_system_account
-#Matterhorn's digest password
+#Opencast's digest password
 #Your CA will need this
 oc_digest_password: CHANGE_ME
 
@@ -29,17 +29,17 @@ oc_version: 2.0.0
 #The pom version within that branch/tag
 oc_pom_version: 2.0.0
 
-#The parent directory for all Matterhorn related services
+#The parent directory for all Opencast related services
 oc_parent_dir: /opt/opencast
-#Where to store Matterhorn itself
+#Where to store Opencast itself
 oc_base_dir: "{{oc_parent_dir}}/opencast"
-#Where to store Matterhorn's data.  Note: this is also the NFS mount point, if applicable
+#Where to store Opencast's data.  Note: this is also the NFS mount point, if applicable
 oc_work_dir: "{{oc_parent_dir}}/work"
-#Where to store Matterhorn's streams.  This is used by the streaming servers, if any.
+#Where to store Opencast's streams.  This is used by the streaming servers, if any.
 oc_streaming_dir: "{{oc_work_dir}}/streams"
-#Where to store Matterhorn's configuration data.
+#Where to store Opencast's configuration data.
 oc_config_dir: "/etc/opencast"
-#Where to store Matterhorn's logs.
+#Where to store Opencast's logs.
 oc_log_dir: "/var/log/opencast"
 
 #The admin URL.  This is the URL you use to access the admin UI

@@ -5,20 +5,20 @@
 
 ### Background
 
-Matterhorn is a complex piece of software that can be difficult to set up for a new adopter.  The scripts outlined in this guide can be used to set up a local instance of Matterhorn, or can be adapted for use in a production environment.
+Opencast is a complex piece of software that can be difficult to set up for a new adopter.  The scripts outlined in this guide can be used to set up a local instance of Opencast, or can be adapted for use in a production environment.
 
 #### Caveats
 * These scripts were designed with a Debian based system in mind, so some assumptions have been made in that regard (file paths, use of Apt for various dependencies, etc).
-* These scripts set up Matterhorn from source, including the 3rd party tools.
+* These scripts set up Opencast from source, including the 3rd party tools.
     * This can take a very, very long time, especially for the 3rd party tools.  There is no progress bar.  Set this to run overnight and come back in the morning.
 
 ### Quick Start
 
-If you are just looking to get a running Matterhorn system at this point, then you need only do two things:  Modify the group\_vars/common.yml, and your .hosts file.  Setup your hosts file to match your environment, and then set up the oc\_version and oc\_pom\_version variables in common.yml to match the version of Matterhorn you wish to install.  Then run _ansible-playbook -K -i $hosts_file.hosts $playbook.yml_ and wait
+If you are just looking to get a running Opencast system at this point, then you need only do two things:  Modify the group\_vars/common.yml, and your .hosts file.  Setup your hosts file to match your environment, and then set up the oc\_version and oc\_pom\_version variables in common.yml to match the version of Opencast you wish to install.  Then run _ansible-playbook -K -i $hosts_file.hosts $playbook.yml_ and wait
 
 ### Details
 
-In this example we will examine the most common topology available using the Ansible scripts.  This is the configuration contained in the _consolidated.hosts_ file.  This file defines which playbook will run on each host.  Think of these playbooks as node profiles - worker.example.org would be installed as a worker node, for example.  The _consolidated.hosts_ defines the most basic Matterhorn cluster using four machines - the classic admin, worker, engage core cluster, with a capture agent.
+In this example we will examine the most common topology available using the Ansible scripts.  This is the configuration contained in the _consolidated.hosts_ file.  This file defines which playbook will run on each host.  Think of these playbooks as node profiles - worker.example.org would be installed as a worker node, for example.  The _consolidated.hosts_ defines the most basic Opencast cluster using four machines - the classic admin, worker, engage core cluster, with a capture agent.
 
 #### Hosts
 

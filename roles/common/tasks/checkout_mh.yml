@@ -1,6 +1,6 @@
 ---
 
-- name: Checkout correct version of Matterhorn
+- name: Checkout correct version of Opencast
   git: repo={{git_repo_location}}
        dest={{oc_base_dir}}
        version={{oc_version}}
