@@ -1,11 +1,11 @@
 ---
 
-- name: Install NFS server in Debian or Ubuntu
+- name: Install NFS server
+  #Debian
   yum: pkg=nfs-kernel-server state=present
   sudo: yes
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: Install NFS server in RHEL or CentOS
+  #RHEL
   yum: pkg=nfs-utils state=present
   sudo: yes
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
@@ -32,5 +32,11 @@
   sudo: yes
 
 - name: Restart NFS
+  #Debian
   service: name=nfs-kernel-server state=restarted enabled=yes
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  #RHEL
+  service: name=nfs-utils state=restarted enabled=yes
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
