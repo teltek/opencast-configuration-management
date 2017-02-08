@@ -2,7 +2,7 @@
 
 - name: Install NFS server
   #Debian
-  yum: pkg=nfs-kernel-server state=present
+  apt: pkg=nfs-kernel-server state=present
   sudo: yes
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   #RHEL
