@@ -20,7 +20,6 @@
 
 - hosts: fileserver
   user: "{{opencast_user}}"
-
   roles:
     - nfs-build
   vars_files:
@@ -30,116 +29,69 @@
 
 - hosts: mysql
   user: "{{opencast_user}}"
-
   roles:
     - mysql-build
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
-
+  sudo: yes
 
 - hosts: activemq
   user: "{{opencast_user}}"
-
   roles:
-    - activemq-build
+    - activemq-package-install
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
+  sudo: yes
 
 
 - hosts: admin
   user: "{{opencast_user}}"
-
   roles:
-    - maven
-    - matterhorn-base
-    - matterhorn-core
-    - admin-build
-    - nginx-build
+    - ffmpeg-package-install
+    - matterhorn-package-install
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
     - roles/admin-build/vars/admin.yml
-
+  sudo: yes 
 
 - hosts: streamer
   user: "{{opencast_user}}"
-
   roles:
     - nginx-build
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
+  sudo: yes 
 
+- hosts: engage
+  user: "{{opencast_user}}"
+  roles:
+    - ffmpeg-package-install
+    - matterhorn-package-install
+  vars_files:
+    - group_vars/common.yml
+    - group_vars/cluster.yml
+    - roles/engage-build/vars/engage.yml
+  sudo: yes 
 
 - hosts: solr
   user: "{{opencast_user}}"
-
   roles:
     - solr-build
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
-
-
-- hosts: engage
-  user: "{{opencast_user}}"
-
-  roles:
-    - maven
-    - matterhorn-base
-    - matterhorn-core
-    - node.js-build
-    - engage-build
-    - nginx-build
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/cluster.yml
-    - roles/engage-build/vars/engage.yml
-
-
-- hosts: ingest
-  user: "{{opencast_user}}"
-
-  roles:
-    - maven
-    - matterhorn-base
-    - matterhorn-core
-    - ingest-build
-    - nginx-build
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/cluster.yml
-    - roles/ingest-build/vars/ingest.yml
-
+  sudo: yes 
 
 - hosts: worker
   user: "{{opencast_user}}"
-
+  sudo: yes 
   roles:
-    - maven
-    - ffmpeg
-    - hunspell
-    - sox
-    - tesseract
-    - matterhorn-base
-    - matterhorn-core
-    - worker-build
-    - nginx-build
+    - ffmpeg-package-install
+    - matterhorn-package-install
   vars_files:
     - group_vars/common.yml
     - group_vars/cluster.yml
-    - roles/worker-build/vars/worker.yml
-
-
-- hosts: capture
-  user: "{{opencast_user}}"
-
-  roles:
-    - pyca-build
-    - nginx-build
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/cluster.yml
-    - group_vars/pyca.yml
