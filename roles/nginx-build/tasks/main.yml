@@ -1,20 +1,52 @@
 ---
 
-- name: Install Git
+- name: Install Git Debian
   apt: pkg=git update_cache=yes state=present
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install PCRE library
+- name: Install Git RHEL
+  yum:
+    pkg: git
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install PCRE library Debian
   apt: pkg=libpcre3-dev state=present
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install OpenSSL development headers
+- name: Install PCRE library RHEL
+  yum:
+    name: pcre-devel
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install OpenSSL development headers Debian
   apt: pkg=libssl-dev state=present
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install build tools
+- name: Install OpenSSL development headers RHEL
+  yum:
+    name: openssl-devel
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install build tools Debian
   apt: pkg=build-essential state=present
   sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install the 'Development tools' package group RHEL
+  yum:
+    name: "@Development tools"
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Create MH parent dir
   file: path={{oc_parent_dir}}/ owner="{{opencast_user}}" group="{{opencast_group}}" state=directory recurse=true
@@ -37,6 +69,7 @@
 
 - name: Create MH streams dir
   file: path={{oc_streaming_dir}} owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
+  become_user: opencast
   when: inventory_hostname in groups['streamer']
 
 - name: Downloading nginx
