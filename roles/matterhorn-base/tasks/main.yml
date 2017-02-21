@@ -3,18 +3,50 @@
 - name: Install Java
   apt: pkg=openjdk-7-jdk update_cache=yes state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Removing pre-1.7 Java JDK
+- name: Install Java
+  yum:
+    name: java-1.7.0-openjdk
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Removing pre-1.7 Java JDK Debian
   apt: pkg=openjdk-6-jdk state=absent
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Removing pre-1.7 Java JRE
+- name: Removing pre-1.7 Java JDK RHEL
+  yum: 
+    name: openjdk-6-jdk
+    state: absent
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Removing pre-1.7 Java JRE RHEL
   apt: pkg=openjdk-6-jre,openjdk-6-jre-headless state=absent
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Install Git
+- name: Removing pre-1.7 Java JRE Debian
+  yum: 
+    name: openjdk-6-jre,openjdk-6-jre-headless
+    state: absent
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install Git Debian
   apt: pkg=git-core state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Install Git RHEL
+  yum: 
+    name: git-core
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Create MH parent dir
   file: path={{ oc_parent_dir }} owner={{opencast_user}} group={{opencast_group}} state=directory

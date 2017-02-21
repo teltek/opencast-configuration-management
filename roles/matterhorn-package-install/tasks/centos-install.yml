@@ -10,7 +10,7 @@
   yum: update_cache=yes name={{ item }} state=latest
   with_items:
     - opencast{{ opencast_version |default ('23') }}-presentation
-  when: inventory_hostname in groups['presentation']
+  when: inventory_hostname in groups['engage']
 
 - name: Opencast Worker install
   yum: update_cache=yes name={{ item }} state=latest
