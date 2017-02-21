@@ -1,12 +1,24 @@
 ---
 
-- name: Ensuring MySQL is installed
+- name: Ensuring MySQL is installed Debian
   apt: pkg=mysql-server update_cache=yes state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Ensuring Python MySQLdb module is installed
+- name: Ensuring MySQL is installed RHEL
+  yum: pkg=mysql-server update_cache=yes state=present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Ensuring Python MySQLdb module is installed Debian
   apt: pkg=python-mysqldb state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Ensuring Python MySQLdb module is installed RHEL
+  yum: pkg=MySQL-python state=present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: MySQL ROOT Dumping DB
   mysql_db: name={{db_schema}} login_user=root login_password= state=absent
