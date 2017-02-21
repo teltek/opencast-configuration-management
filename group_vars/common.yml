@@ -2,7 +2,7 @@
 
 #The location of the Git repo you want to fetch
 #Note: If this is a protected repository you will need to make it ssh accessible, and populate the ssh directory in group_vars with an appropriate deployment key and known hosts file
-git_repo_location: https://bitbucket.org/opencast-community/opencast.git
+git_repo_location: https://bitbucket.org/opencast-community/matterhorn.git
 
 #The user to run the Opencast service(s) as.  This includes any Solr or nginx instances.
 opencast_user: opencast
@@ -13,9 +13,11 @@ opencast_group: opencast
 oc_debug: false
 
 #Opencast's admin username
-oc_admin_username: admin
+oc_admin_username: opencast
+mysql_user_name: opencast
 #Opencast's admin password
 oc_admin_password: opencast
+mysql_user_password: opencast
 #Opencast's digest username
 #Your CA will need this
 oc_digest_username: opencast_system_account
@@ -25,9 +27,9 @@ oc_digest_password: CHANGE_ME
 
 #These two must match
 #The git branch/tag to check out.
-oc_version: 2.0.0
+oc_version: 2.3.1
 #The pom version within that branch/tag
-oc_pom_version: 2.0.0
+oc_pom_version: 2.3.1
 
 #The parent directory for all Opencast related services
 oc_parent_dir: /opt/opencast
@@ -110,7 +112,7 @@ mvn_home: "{{oc_tools_dir}}/apache-maven-{{mvn_version}}"
 #Where to store the M2 backup directory in the case of a wipe.
 m2_backup_dir: "/opt/m2_backup"
 #Where to store the Maven repository
-m2_repo: "{{oc_work_dir}}/.m2/repository"
+m2_repo: "/usr/share/opencast/system/"
 #The default Maven options.
 maven_opts: "-Xms256m -Xmx512m -XX:PermSize=64m -XX:MaxPermSize=128m -Dmaven.repo.local={{m2_repo}}"
 
