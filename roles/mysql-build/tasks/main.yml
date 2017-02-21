@@ -1,39 +1,23 @@
 ---
+# Variable configuration.
+- include: variables.yml
 
-- name: Install MySQL server
-  apt: pkg=mysql-server state=present
-  sudo: yes
+# Setup/install tasks.
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+  static: no
 
-- name: Install Python MySQL bindings
-  apt: pkg=python-mysqldb state=present
-  sudo: yes
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+  static: no
 
-- name: Install Git
-  apt: pkg=git-core state=present
-  sudo: yes
+- name: Check if MySQL packages were installed.
+  set_fact:
+    mysql_install_packages: "{{ (rh_mysql_install_packages is defined and rh_mysql_install_packages.changed) or (deb_mysql_install_packages is defined and deb_mysql_install_packages.changed) }}"
 
-- name: Create MH parent dir
-  file: path={{ oc_parent_dir }} owner={{opencast_user}} group={{opencast_group}} state=directory
-  sudo: yes
-
-- name: Fix MH parent dir permissions
-  file: path={{oc_parent_dir}}/ owner={{opencast_user}} group={{opencast_group}} state=directory recurse=true
-  sudo: true
-
-- name: Create MH shared dir
-  file: path={{oc_work_dir}} owner={{opencast_user}} group={{opencast_group}} state=directory
-
-- include: ../../common/tasks/clone_oc.yml
-
-- include: ../../common/tasks/clean_db.yml
-
-- name: MySQL ROOT Granting user permissions on DB
-  mysql_user: login_user=root login_password= name={{db_user}} password={{db_pass}} host="%" priv="{{db_schema}}.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX"
-
-- name: Allowing remote MySQL connections
-  shell: sed -i 's/bind-address/#bind-address/g' /etc/mysql/my.cnf
-  sudo: yes
-
-- name: Restarting MySQL
-  service: name=mysql state=restarted
-  sudo: yes
+# Configure MySQL.
+- include: configure.yml
+- include: secure-installation.yml
+- include: databases.yml
+- include: users.yml
+- include: replication.yml
