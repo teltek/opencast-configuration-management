@@ -1,16 +1,40 @@
 ---
 
-- name: Install Java
+- name: Install Java Debian
   apt: pkg=openjdk-7-jdk update_cache=yes state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Install Git
+- name: Install Java RHEL
+  yum:
+    name: java-1.7.0-openjdk
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install Git Debian
   apt: pkg=git-core state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Install unzip
+- name: Install Git RHEL
+  yum:
+    name: git-core
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Install unzip Debian
   apt: pkg=unzip state=present
   sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Install unzip RHEL
+  yum:
+    name: unzip
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - include: ../../common/tasks/create_tools_bin.yml
 
@@ -65,15 +89,21 @@
          creates=apache-tomcat-7.0.5/webapps/solr
 
 - name: Copying Engage search index
-  shell: cp -rv {{oc_base_dir}}/modules/opencast-search-service-impl/src/main/resources/solr {{solr_data_dir}}
+  shell: cp -rv {{oc_base_dir}}/modules/matterhorn-search-service-impl/src/main/resources/solr {{solr_data_dir}}
          chdir={{oc_tools_dir}}
 
 - name: Creating lib directory
   file: path={{solr_data_dir}}/lib owner="{{opencast_user}}" group="{{opencast_group}}" state=directory
 
 - name: Copying required Solr jar
-  shell: cp -rv {{m2_repo}}/org/opencastproject/opencast-solr/{{oc_pom_version}}/opencast-solr-{{oc_pom_version}}.jar {{solr_data_dir}}/lib
+  shell: cp -rv {{m2_repo}}/org/opencastproject/matterhorn-solr/{{oc_pom_version}}/matterhorn-solr-{{oc_pom_version}}.jar {{solr_data_dir}}/lib
          chdir={{oc_tools_dir}}
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Copying required Solr jar
+  shell: cp -rv {{m2_repo}}/org/opencastproject/matterhorn-solr/{{oc_pom_version}}/matterhorn-solr-{{oc_pom_version}}.jar {{solr_data_dir}}/lib
+         chdir={{oc_tools_dir}}
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Configure Tomcat
   template: src=server.xml dest={{oc_tools_dir}}/apache-tomcat-7.0.5/conf/
