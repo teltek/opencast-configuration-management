@@ -1,0 +1,33 @@
+---
+
+- name: Create MH parent dir
+  file: path={{ oc_parent_dir }} owner={{opencast_user}} group={{opencast_group}} state=directory
+  sudo: yes
+
+- name: Pushing SSH configs
+  copy: src=../../../group_vars/ssh/ dest=/home/{{opencast_user}}/.ssh mode=600 owner=opencast
+  sudo: yes
+
+- name: Ensuring Git is installed in Debian
+  apt: 
+    name: git
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Ensuring Git is installed in RHEL
+  yum: 
+    name: git
+    state: present
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Cloning Opencast
+  git: repo={{git_repo_location}}
+       dest={{oc_base_dir}}
+       update=yes
+       version={{oc_version}}
+       force=yes
+  sudo: yes
+
+- include: checkout_oc.yml

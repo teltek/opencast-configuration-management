@@ -4,3 +4,4 @@
   git: repo={{git_repo_location}}
        dest={{oc_base_dir}}
        version={{oc_version}}
+  sudo: yes
