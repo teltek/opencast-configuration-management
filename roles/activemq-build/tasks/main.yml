@@ -40,6 +40,11 @@
   file: src={{activemq_home_dir}}/bin/env dest=/etc/default/activemq state=link
   sudo: yes
 
+- name: Create ActiveMQ directory
+  file:
+    path: /etc/activemq
+    state: directory 
+
 - name: Applying ActiveMQ configuration
   copy: src="activemq.xml" dest="/etc/activemq/activemq.xml"
 
@@ -50,3 +55,4 @@
 - name: Setting ActiveMQ to start on boot
   service: name=activemq enabled=yes
   sudo: yes
+  ignore_errors: yes
